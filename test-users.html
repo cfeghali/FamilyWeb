@@ -87,26 +87,38 @@
             }
         }
 
-        async function getAccessToken() {
-            try {
-                log('Attempting to retrieve access token');
-                const response = await fetch('/.auth/me');
-                if (!response.ok) {
-                    throw new Error(`Failed to get access token: ${response.status} - ${response.statusText}`);
-                }
-                const data = await response.json();
-                log(`Response from /.auth/me: ${JSON.stringify(data)}`);
-                const token = data.clientPrincipal?.identityProviderAccessToken;
-                if (!token) {
-                    throw new Error('No access token in response');
-                }
-                log('Access token retrieved successfully');
-                return token;
-            } catch (error) {
-                log(`Error retrieving access token: ${error.message}`);
-                return null;
-            }
+async function getAccessToken() {
+    try {
+        log('Attempting to retrieve access token via /.auth/me');
+        const response = await fetch('/.auth/me');
+        if (!response.ok) {
+            throw new Error(`Failed to get access token from /.auth/me: ${response.status} - ${response.statusText}`);
         }
+        const data = await response.json();
+        log(`Response from /.auth/me: ${JSON.stringify(data)}`);
+        const token = data.clientPrincipal?.identityProviderAccessToken;
+        if (!token) {
+            log('Falling back to custom API for access token');
+            const apiResponse = await fetch('/api/getAccessToken');
+            if (!apiResponse.ok) {
+                throw new Error(`Failed to get access token from custom API: ${apiResponse.status} - ${apiResponse.statusText}`);
+            }
+            const apiData = await apiResponse.json();
+            log(`Response from /api/getAccessToken: ${JSON.stringify(apiData)}`);
+            const apiToken = apiData.identityProviderAccessToken;
+            if (!apiToken) {
+                throw new Error('No access token in custom API response');
+            }
+            log('Access token retrieved successfully via custom API');
+            return apiToken;
+        }
+        log('Access token retrieved successfully from /.auth/me');
+        return token;
+    } catch (error) {
+        log(`Error retrieving access token: ${error.message}`);
+        return null;
+    }
+}
 
         async function loadUsers() {
             log('Loading Entra ID users');
