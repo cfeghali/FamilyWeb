@@ -1,4 +1,18 @@
 {
+  "routes": [
+    {
+      "route": "/.auth/login/aad",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/.auth/logout",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/test-users.html",
+      "allowedRoles": ["authenticated"]
+    }
+  ],
   "auth": {
     "identityProviders": {
       "azureActiveDirectory": {
