@@ -1,0 +1,15 @@
+{
+  "auth": {
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "registration": {
+          "clientId": "9b2297fb-b413-40c6-abf8-2b573232f2a2",
+          "clientSecretSettingName": "AAD_CLIENT_SECRET"
+        },
+        "login": {
+          "allowEmailPassword": false
+        }
+      }
+    }
+  }
+}
