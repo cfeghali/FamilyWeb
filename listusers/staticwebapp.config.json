@@ -1,4 +1,18 @@
 {
+  "routes": [
+    {
+      "route": "/listusers",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/.auth/login/aad",
+      "redirect": "/.auth/login/aad"
+    },
+    {
+      "route": "/.auth/logout",
+      "redirect": "/.auth/logout"
+    }
+  ],
   "auth": {
     "identityProviders": {
       "azureActiveDirectory": {
