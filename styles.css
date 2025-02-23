@@ -1,8 +1,8 @@
 body {
-    sans-serif;
+    font-family: Arial, sans-serif;
     margin: 20px;
 }
-h1 {
+h1, h2, h3 {
     color: #333;
 }
 button {
@@ -15,13 +15,26 @@ button {
 button:hover {
     background-color: #005a9e;
 }
-#hierarchy {
+#user-management, #user-actions, #orphaned-users {
     margin-top: 20px;
 }
-.jstree-default .jstree-anchor {
-    color: #333;
+input, select {
+    margin: 5px 0;
+    padding: 5px;
+    width: 200px;
 }
-.jstree-default .jstree-clicked {
-    background-color: #0078d4;
-    color: white;
+#orphaned-list li {
+    cursor: pointer;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
+#orphaned-list li:hover {
+    background-color: #f0f0f0;
+}
+#family-tree ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+#family-tree li {
+    margin: 5px 0;
 }
