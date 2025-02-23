@@ -20,7 +20,7 @@
         }
         #user-list ul {
             list-style-type: none;
-           : 0;
+            padding: 0;
         }
         #user-list li {
             padding: 8px;
@@ -95,6 +95,7 @@
                     throw new Error(`Failed to get access token: ${response.status} - ${response.statusText}`);
                 }
                 const data = await response.json();
+                log(`Response from /.auth/me: ${JSON.stringify(data)}`);
                 const token = data.clientPrincipal?.identityProviderAccessToken;
                 if (!token) {
                     throw new Error('No access token in response');
