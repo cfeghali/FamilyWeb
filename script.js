@@ -1,3 +1,15 @@
+function login() {
+    window.location.href = '/.auth/login/aad';
+}
+
+async function getUserInfo() {
+    const response = await fetch('/.auth/me');
+    if (response.ok) {
+        const data = await response.json();
+        document.getElementById('user-info').innerHTML = `Welcome, ${data.clientPrincipal.userDetails} (${data.clientPrincipal.userId})`;
+    }
+}
+
 async function loadHierarchy() {
     try {
         const response = await fetch('/api/GetFamilyHierarchy');
@@ -37,3 +49,9 @@ async function loadHierarchy() {
         document.getElementById('hierarchy').innerHTML = '<p>Error loading hierarchy.</p>';
     }
 }
+
+// Load user info and hierarchy when the page loads
+window.onload = async () => {
+    await getUserInfo();
+    await loadHierarchy();
+};
