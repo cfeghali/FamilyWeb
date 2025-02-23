@@ -5,16 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feghali Family Site</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 </head>
 <body>
     <h1>Welcome to the Feghali Family Site</h1>
     <button onclick="login()">Login with Microsoft</button>
     <div id="user-info"></div>
-    <div id="hierarchy"></div>
+    <h2>Family Tree</h2>
+    <div id="family-tree"></div>
+    <h2>Orphaned Users</h2>
+    <div id="orphaned-users">
+        <ul id="orphaned-list"></ul>
+        <input type="text" id="searchOrphan" placeholder="Search orphaned users">
+        <button onclick="searchOrphans()">Search</button>
+    </div>
+    <h2>Manage My Profile</h2>
+    <div id="user-management">
+        <input type="text" id="userEmail" placeholder="Your email (read-only)" readonly>
+        <input type="text" id="userName" placeholder="Your name (read-only)" readonly>
+        <select id="maritalStatus" placeholder="Marital status">
+            <option value="">Select marital status</option>
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+            <option value="Divorced">Divorced</option>
+            <option value="Widowed">Widowed</option>
+        </select>
+        <input type="text" id="spouseEmail" placeholder="Spouse email (e.g., joana.feghali@feghali.org)">
+        <input type="text" id="parentUPN" placeholder="Parent UPN (e.g., george.placeholder@feghali.org)">
+        <button onclick="updateProfile()">Update Profile</button>
+    </div>
+    <h2>Create or Connect User</h2>
+    <div id="user-actions">
+        <input type="text" id="newUserEmail" placeholder="New user email (e.g., joana.feghali@feghali.org)">
+        <input type="text" id="newUserName" placeholder="New user name">
+        <input type="text" id="newUserLastName" placeholder="New user last name">
+        <select id="newParentUPN" placeholder="Parent UPN">
+            <option value="">Select parent</option>
+        </select>
+        <button onclick="createOrConnectUser()">Create/Connect User</button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
