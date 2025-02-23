@@ -24,7 +24,7 @@
         }
         #user-list li {
             padding: 8px;
-            border-bottom: 1px solid #ddd;
+           px solid #ddd;
         }
         #debug-logs {
             margin-top: 20px;
@@ -119,11 +119,11 @@
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.ok) {
-                    const users = await response.json().value;
-                    log(`Loaded ${users.length} users`);
+                    const users = await response.json();
+                    log(`Loaded ${users.value.length} users`);
                     const list = document.getElementById('user-list');
                     list.innerHTML = '<h2>Entra ID Users</h2><ul>';
-                    users.forEach(user => {
+                    users.value.forEach(user => {
                         list.innerHTML += `<li>${user.displayName} ${user.surname} (${user.mail})</li>`;
                     });
                     list.innerHTML += '</ul>';
