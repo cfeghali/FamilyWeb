@@ -3,7 +3,7 @@
     "identityProviders": {
       "azureActiveDirectory": {
         "registration": {
-          "clientId": "9b2297fb-b413-40c6-abf8-2b573232f2a2",
+          "clientId": "82aac667-459b-4702-8a78-b273de1635d4",
           "clientSecretSettingName": "AAD_CLIENT_SECRET"
         },
         "login": {
