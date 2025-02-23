@@ -345,14 +345,23 @@ async function getCurrentUserEmail() {
 }
 
 async function getAccessToken() {
-    const response = await fetch('/.auth/me');
-    if (response.ok) {
+    try {
+        log('Attempting to retrieve access token');
+        const response = await fetch('/.auth/me');
+        if (!response.ok) {
+            throw new Error(`Failed to get access token: ${response.status} - ${response.statusText}`);
+        }
         const data = await response.json();
-        log(`Access token retrieved successfully`);
-        return data.clientPrincipal.identityProviderAccessToken;
+        const token = data.clientPrincipal?.identityProviderAccessToken;
+        if (!token) {
+            throw new Error('No access token in response');
+        }
+        log('Access token retrieved successfully');
+        return token;
+    } catch (error) {
+        log(`Error retrieving access token: ${error.message}`);
+        return null;
     }
-    log(`Failed to get access token: ${response.status} - ${response.statusText}`);
-    return null;
 }
 
 async function getUserGroups() {
@@ -503,30 +512,38 @@ function setupAutocomplete() {
     inputs.forEach(inputId => {
         const input = document.getElementById(inputId);
         const datalist = document.getElementById(`${inputId}-options`);
+        let timeoutId = null;
         input.addEventListener('input', async () => {
-            const token = await getAccessToken();
-            if (!token) {
-                log('No access token available for autocomplete');
-                return;
-            }
-            const searchTerm = input.value;
-            const [displayName, surname] = searchTerm.trim().split(' ').filter(Boolean);
-            const response = await fetch(`https://graph.microsoft.com/v1.0/users?$filter=startsWith(displayName, '${encodeURIComponent(displayName)}') and startsWith(surname, '${encodeURIComponent(surname || '')}')&$select=mail,displayName,surname`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (response.ok) {
-                const users = await response.json().value;
-                log(`Autocomplete results for ${searchTerm}: ${users.length} users`);
-                datalist.innerHTML = '';
-                users.forEach(user => {
-                    const option = document.createElement('option');
-                    option.value = `${user.displayName} ${user.surname}`;
-                    option.dataset.email = user.mail;
-                    datalist.appendChild(option);
-                });
-            } else {
-                log(`Failed autocomplete for ${searchTerm}: ${response.status} - ${response.statusText}`);
-            }
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(async () => {
+                const token = await getAccessToken();
+                if (!token) {
+                    log('No access token available for autocomplete');
+                    return;
+                }
+                const searchTerm = input.value;
+                const [displayName, surname] = searchTerm.trim().split(' ').filter(Boolean);
+                try {
+                    const response = await fetch(`https://graph.microsoft.com/v1.0/users?$filter=startsWith(displayName, '${encodeURIComponent(displayName)}') and startsWith(surname, '${encodeURIComponent(surname || '')}')&$select=mail,displayName,surname`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (response.ok) {
+                        const users = await response.json().value;
+                        log(`Autocomplete results for ${searchTerm}: ${users.length} users`);
+                        datalist.innerHTML = '';
+                        users.forEach(user => {
+                            const option = document.createElement('option');
+                            option.value = `${user.displayName} ${user.surname}`;
+                            option.dataset.email = user.mail;
+                            datalist.appendChild(option);
+                        });
+                    } else {
+                        log(`Failed autocomplete for ${searchTerm}: ${response.status} - ${response.statusText}`);
+                    }
+                } catch (error) {
+                    log(`Error during autocomplete fetch: ${error.message}`);
+                }
+            }, 300); // Debounce input by 300ms to reduce rapid API calls
         });
     });
 }
