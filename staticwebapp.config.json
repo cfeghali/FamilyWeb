@@ -10,10 +10,6 @@
           "allowEmailPassword": false
         }
       }
-    },
-    "roles": {
-      "superAdmin": ["cesar@feghali.org", "dany@feghali.org"],
-      "member": ["*"]
     }
   }
 }
