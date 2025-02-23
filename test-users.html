@@ -24,7 +24,7 @@
         }
         #user-list li {
             padding: 8px;
-           px solid #ddd;
+            border-bottom: 1px solid #ddd;
         }
         #debug-logs {
             margin-top: 20px;
@@ -47,9 +47,9 @@
     <div id="auth-button"></div>
     <div id="user-list"></div>
     <h2>Debug Logs <button onclick="toggleDebug()">Toggle Debug</button></h2>
-    <div id="debug-logs" style="display: none;"></div>
+    <div id="debug-logs"></div>
     <script>
-        let debugEnabled = false;
+        let debugEnabled = true; // Set to true to keep debug logs always visible
 
         function log(message) {
             if (debugEnabled) {
