@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List Users</title>
+</head>
+<body>
+  <h1>User List</h1>
+  <button id="login">Login</button>
+  <button id="logout" style="display:none;">Logout</button>
+  <ul id="userList"></ul>
+
+  <script>
+    const loginButton = document.getElementById('login');
+    const logoutButton = document.getElementById('logout');
+    const userList = document.getElementById('userList');
+
+    loginButton.addEventListener('click', () => {
+      window.location.href = '/.auth/login/aad';
+    });
+
+    logoutButton.addEventListener('click', () => {
+      window.location.href = '/.auth/logout';
+    });
+
+    async function fetchUsers() {
+      const response = await fetch('/.auth/me');
+      const data = await response.json();
+      if (data.clientPrincipal) {
+        loginButton.style.display = 'none';
+        logoutButton.style.display = 'block';
+        const usersResponse = await fetch('https://graph.microsoft.com/v1.0/users', {
+          headers: {
+            'Authorization': `Bearer ${data.clientPrincipal.accessToken}`
+          }
+        });
+        const users = await usersResponse.json();
+        users.value.forEach(user => {
+          const li = document.createElement('li');
+          li.textContent = user.displayName;
+          userList.appendChild(li);
+        });
+      }
+    }
+
+    fetchUsers();
+  </script>
+</body>
+</html>
