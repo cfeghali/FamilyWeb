@@ -11,5 +11,11 @@
         }
       }
     }
-  }
+  },
+  "routes": [
+    {
+      "route": "/api/*",
+      "allowedRoles": ["authenticated"]
+    }
+  ]
 }
