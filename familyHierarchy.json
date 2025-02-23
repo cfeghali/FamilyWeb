@@ -1,0 +1,39 @@
+{
+    "family": [
+        {
+            "name": "Parents",
+            "members": [
+                {"name": "Parent 1", "email": "parent1@feghali.org"},
+                {"name": "Parent 2", "email": "parent2@feghali.org"}
+            ]
+        },
+        {
+            "name": "Uncles and Aunts",
+            "members": [
+                {"name": "Uncle 1", "email": "uncle1@feghali.org"},
+                {"name": "Aunt 1", "email": "aunt1@feghali.org"}
+            ]
+        },
+        {
+            "name": "Siblings",
+            "members": [
+                {"name": "Cesar", "email": "cesar@feghali.org"},
+                {"name": "Sibling 1", "email": "sibling1@feghali.org"}
+            ]
+        },
+        {
+            "name": "Cousins",
+            "members": [
+                {"name": "Cousin 1", "email": "cousin1@feghali.org"},
+                {"name": "Cousin 2", "email": "cousin2@feghali.org"}
+            ]
+        },
+        {
+            "name": "Kids",
+            "members": [
+                {"name": "Kid 1", "email": "kid1@feghali.org"},
+                {"name": "Kid 2", "email": "kid2@feghali.org"}
+            ]
+        }
+    ]
+}
